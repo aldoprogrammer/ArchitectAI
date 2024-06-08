@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Topbar } from '../components/Topbar';
 import { Sidebar } from '../components/Sidebar';
 import {
@@ -8,20 +8,22 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import BuildingImage from '../assets/building.png';
-import { useNavigate } from 'react-router-dom';
 import MarkdownEditor from '../components/MarkdownEditor';
 import { useAldoAlert } from 'aldo-alert';
 import { ScaleLoader } from 'react-spinners';
+import QRCode from 'qrcode.react';
+import { Link } from 'react-router-dom';
 
 
 const Dashboard = () => {
 
   const { showAldoAlert } = useAldoAlert();
-  const navigate = useNavigate();
   const [tab, setTab] = useState(1);
   const [projectTitle, setProjectTitle] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
   const [loading, setLoading] = useState(false); // State for controlling loading animation
+  const [qrCodeValue, setQrCodeValue] = useState(''); // State for storing QR code value
+
 
   // Load data from localStorage when component mounts
   useEffect(() => {
@@ -61,11 +63,26 @@ const Dashboard = () => {
     // Save data to localStorage
     localStorage.setItem('projectTitle', projectTitle);
     localStorage.setItem('projectDescription', projectDescription);
-    // You can perform further actions here, like sending data to a smart contract
+    // Fetch generated documentation from localStorage
+    const documentation = localStorage.getItem('generatedDocumentation');
+
+    // Generate QR code value
+    const qrData = {
+      title: projectTitle,
+      description: projectDescription,
+      documents: documentation
+    };
+
+
+    // Simulate saving to smart contract and hiding loader
     setTimeout(() => {
       setLoading(false); // Hide loading animation after 3 seconds
+      showAldoAlert('Project saved to Smart Contract!', 'warning');
+      setQrCodeValue(JSON.stringify(qrData));
+      localStorage.setItem('qrCodeData', JSON.stringify(qrData)); // Save QR data to localStorage
+
     }, 3000);
-    showAldoAlert('Project save to Smart Contract!', 'warning');
+
   };
 
   return (
@@ -103,10 +120,24 @@ const Dashboard = () => {
                 </Typography>
                 <div className='flex flow-row gap-4'>
                   <div className='flex flex-col gap-2 w-2/5'>
-                  <img src={BuildingImage} className='h-[300px]' />
-                  <Typography variant="h4" color="blue-gray" className="mb-4">
+                    <img src={BuildingImage} className='h-[300px]' />
+                    <Typography variant="h4" color="blue-gray" className="mb-4">
                       QR Code Project:
                     </Typography>
+                    {qrCodeValue && (
+                      <>
+                      <QRCode value={qrCodeValue} size={256} />
+                      <Typography variant="h6" color="blue-gray" className="">
+                       Note: <span className='font-normal italic mr-2'>Save this QR code for future reference.</span> 
+                    </Typography>
+                    <Link
+                      to="/print-invoice">
+                    <Button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-fit">
+                        Print
+                      </Button>
+                      </Link>
+                    </>
+                    )}
                   </div>
                   <div className='flex flex-col gap-1 w-full'>
                     <Typography variant="h4" color="blue-gray" className="mb-4">

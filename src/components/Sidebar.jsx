@@ -33,18 +33,9 @@ import {
           </ListItem>
           <ListItem>
             <ListItemPrefix>
-              <ShoppingBagIcon className="h-5 w-5" />
+            <InboxIcon className="h-5 w-5" />
             </ListItemPrefix>
-            E-Commerce
-          </ListItem>
-          <ListItem>
-            <ListItemPrefix>
-              <InboxIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Inbox
-            <ListItemSuffix>
-              <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
-            </ListItemSuffix>
+            Smart Reader
           </ListItem>
           <ListItem>
             <ListItemPrefix>
