@@ -32,7 +32,7 @@ export function Login() {
   };
 
   return (
-    <div className="flex flex-col gap-3 items-center justify-center h-auto">
+    <div className="flex flex-col my-10 gap-3 items-center justify-center h-auto">
       <img src={Logo} alt="Logo" className="w-52 h-52" />
       <Card color="white" shadow={true} className="w-2/5 mx-auto p-5 flex items-center justify-center h-4/5">
         <Typography variant="h4" color="blue-gray">
