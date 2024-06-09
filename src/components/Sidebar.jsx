@@ -26,12 +26,14 @@ import { Link } from "react-router-dom";
           </Typography>
         </div>
         <List>
+          <Link to='/dashboard'>
           <ListItem>
             <ListItemPrefix>
               <PresentationChartBarIcon className="h-5 w-5" />
             </ListItemPrefix>
             Dashboard
           </ListItem>
+          </Link>
           <Link to='/smart-reader'>
           <ListItem>
             <ListItemPrefix>

@@ -10,6 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 export function Login() {
   const [errorMessage, setErrorMessage] = useState('');
+  const [account, setAccount] = useState(null);
   const navigate = useNavigate();
 
   const handleMetamaskLogin = async () => {
@@ -19,6 +20,7 @@ export function Login() {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         const account = accounts[0];
         console.log('Connected account:', account);
+        setAccount(account);
         // Handle account login logic here
         // Assuming login is successful, redirect to the dashboard
         navigate('/dashboard');
@@ -30,6 +32,16 @@ export function Login() {
       setErrorMessage('Please install Metamask to use this feature.');
     }
   };
+
+  const handleMetamaskLogout = () => {
+    setAccount(null);
+    console.log('Disconnected account');
+    // Perform any additional logout logic here if needed
+    navigate('/login');
+  };
+
+  console.log('Account:', account);
+
 
   return (
     <div className="flex flex-col my-10 gap-3 items-center justify-center h-auto">
@@ -72,12 +84,21 @@ export function Login() {
               Sign In
             </Button>
           </Link>
-          <Button 
-            className="mt-3 bg-yellow-900 hover:bg-gradient-to-r text-white font-bold duration-300 ease-out px-4 rounded w-full py-3"
-            onClick={handleMetamaskLogin}
-          >
-            Connect with Metamask
-          </Button>
+          {account ? (
+            <Button 
+              className="mt-3 bg-red-600 hover:bg-gradient-to-r text-white font-bold duration-300 ease-out px-4 rounded w-full py-3"
+              onClick={handleMetamaskLogout}
+            >
+              Logout of Metamask
+            </Button>
+          ) : (
+            <Button 
+              className="mt-3 bg-yellow-900 hover:bg-gradient-to-r text-white font-bold duration-300 ease-out px-4 rounded w-full py-3"
+              onClick={handleMetamaskLogin}
+            >
+              Connect with Metamask
+            </Button>
+          )}
           {errorMessage && (
             <Typography color="red" className="mt-4 text-center font-normal">
               {errorMessage}

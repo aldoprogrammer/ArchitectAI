@@ -18,10 +18,14 @@ import { Link } from 'react-router-dom';
 const Dashboard = () => {
 
   const { showAldoAlert } = useAldoAlert();
-  const [tab, setTab] = useState(1);
+  const [tab, setTab] = useState(() => {
+    const savedTab = localStorage.getItem('tab');
+    return savedTab !== null ? Number(savedTab) : 0;
+  });
   const [projectTitle, setProjectTitle] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
   const [loading, setLoading] = useState(false); // State for controlling loading animation
+  const [loadingUrl, setLoadingUrl] = useState(false); // State for controlling loading animation
   const [qrCodeValue, setQrCodeValue] = useState(''); // State for storing QR code value
 
 
@@ -34,8 +38,24 @@ const Dashboard = () => {
   }, []);
 
   const submitUrlFunction = () => {
-    setTab(1);
+    setLoadingUrl(true); // Show loading animation
+
+      // Simulate saving to smart contract and hiding loader
+      setTimeout(() => {
+        setLoadingUrl(false); // Hide loading animation after 3 seconds
+        showAldoAlert('Project 3D URL connected!', 'warning');
+        setTab(1);
+        localStorage.setItem('tab', setTab); // Save QR data to localStorage
+  
+      }, 3000);
+
   };
+
+    // Effect to sync tab state with localStorage
+    useEffect(() => {
+      localStorage.setItem('tab', tab);
+    }, [tab]);
+  
 
   const generateAI = (text, setText) => {
     let currentIndex = 0;
@@ -109,8 +129,9 @@ const Dashboard = () => {
                     />
                   </div>
                   <Button onClick={submitUrlFunction} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">
-                    Submit
-                  </Button>
+                      {loadingUrl ? <ScaleLoader color='#ffffff' loading={loadingUrl} height={16} width={6} radius={2} margin={3} />
+                        : "Submit URL"}
+                    </Button>
                 </form>
               </>
             ) : (
