@@ -4,6 +4,7 @@ import { Register } from './pages/Register';
 import { Login } from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import PrintInvoice from './components/PrintInvoice';
+import SmartReader from './pages/SmartReader';
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/smart-reader" element={<SmartReader />} />
       <Route path="/print-invoice" element={<PrintInvoice />} />
       </Routes>
     </Router>
