@@ -15,6 +15,7 @@ import {
     InboxIcon,
     PowerIcon,
   } from "@heroicons/react/24/solid";
+import { Link } from "react-router-dom";
    
   export function Sidebar() {
     return (
@@ -31,12 +32,14 @@ import {
             </ListItemPrefix>
             Dashboard
           </ListItem>
+          <Link to='/smart-reader'>
           <ListItem>
             <ListItemPrefix>
             <InboxIcon className="h-5 w-5" />
             </ListItemPrefix>
             Smart Reader
           </ListItem>
+          </Link>
           <ListItem>
             <ListItemPrefix>
               <UserCircleIcon className="h-5 w-5" />
